@@ -1,10 +1,7 @@
 "use client";
 
-import { UserButton, useUser, SignUp } from "@clerk/nextjs";
+import { SignUp } from "@clerk/nextjs";
 
-export default function Home() {
-
-  return (
-        <SignUp signInUrl="/" routing="hash" />
-  );
+export default function SignUpPage() {
+  return <SignUp signInUrl="/" afterSignInUrl="/sign-up/complete"  afterSignUpUrl="/sign-up/complete" routing="hash" />;
 }

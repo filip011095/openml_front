@@ -19,7 +19,7 @@ export default function NavBar() {
       <div className="flex items-center gap-4">
       {isSignedIn ? (
           <>
-            <h1 className="text-xl font-semibold mt-4">Welcome, {user?.firstName}!</h1>
+            
             <UserButton afterSignOutUrl="/" />
           </>
         ) : (
