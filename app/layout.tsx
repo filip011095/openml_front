@@ -10,7 +10,7 @@ import {
 import { Geist, Geist_Mono } from 'next/font/google'
 import Image from 'next/image'
 import './globals.css'
-import NavBar from './components/nav/NavBar';
+import NavBar from '../components/nav/NavBar';
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -46,10 +46,12 @@ export default function RootLayout({
         },
       }}>
       <html lang="en">
-        <body className={`${geistSans.variable} ${geistMono.variable} antialiased bg-white text-black h-screen`}>
-          <NavBar /> 
-         
+
+        <body className={`${geistSans.variable} ${geistMono.variable} antialiased bg-white text-black h-screen`} style={{overflow: 'hidden'}}>
+        <NavBar /> 
+
           <main className="flex justify-center items-center h-full">
+      
             {children}
           </main>
         </body>

@@ -20,7 +20,7 @@ export default function SignUpComplete() {
 
         console.log("🔹 Clerk Token:", token); // Debug: Check if the token is retrieved
 
-        const response = await fetch("http://3.231.154.225:1337/api/auth/signin", {
+        const response = await fetch("http://44.192.120.34:1337/api/auth/signin", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -44,7 +44,7 @@ export default function SignUpComplete() {
         console.error("Error registering user:", error);
       } finally {
         setLoading(false);
-        router.push("/");
+        router.push("/onboarding");
       }
     };
 
