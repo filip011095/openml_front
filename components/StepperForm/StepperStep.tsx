@@ -15,8 +15,10 @@ export default function StepperStep({ currentStep, nextStep, prevStep, handleBan
     cashSavings: false,
     extraIncome: false,
   });
+  type SourceKey = 'bankSavings' | 'cashSavings' | 'extraIncome';
 
-  const toggleSource = (source: keyof typeof selectedSources) => {
+
+  const toggleSource = (source: SourceKey) => {
     setSelectedSources((prev) => ({ ...prev, [source]: !prev[source] }));
   };
 

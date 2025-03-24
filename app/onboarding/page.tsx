@@ -1,20 +1,17 @@
 'use client';
-import StepperForm from "../../components/StepperForm/StepperForm";
+
+import StepperForm from '../../components/StepperForm/StepperForm';
 import { useSearchParams } from 'next/navigation';
-import { useEffect } from 'react';
+import { useEffect, Suspense } from 'react';
 
-
-export default function OnboardingPage() {
+function OnboardingInner() {
   const searchParams = useSearchParams();
 
   useEffect(() => {
     const code = searchParams.get('code');
     const credentialsId = searchParams.get('credentialsId') || searchParams.get('credentials_id');
 
-
     if (code && credentialsId) {
-      // Send message to parent window (the one that rendered the iframe)
-    
       window.parent.postMessage(
         {
           source: 'visa-sdk',
@@ -25,9 +22,14 @@ export default function OnboardingPage() {
       );
     }
   }, [searchParams]);
+
+  return <StepperForm />;
+}
+
+export default function OnboardingPage() {
   return (
-    <div>
-      <StepperForm />
-    </div>
+    <Suspense fallback={<div>Loading...</div>}>
+      <OnboardingInner />
+    </Suspense>
   );
 }
