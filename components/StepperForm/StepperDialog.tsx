@@ -18,6 +18,7 @@ export default function StepperDialog({
 
   // Handle click outside for automatic dialog
   useEffect(() => {
+    
     const handleClickOutside = (event: MouseEvent) => {
       if (
         dialogRef.current &&
@@ -36,6 +37,7 @@ export default function StepperDialog({
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [authorizationCode, closeDialog]);
+ 
 
   return (
     <>
@@ -44,7 +46,7 @@ export default function StepperDialog({
         <div className="fixed inset-0 bg-[#2a2a337a] bg-opacity-50 flex items-center justify-center">
           <div ref={dialogRef} className="modal-content bg-white p-0 rounded-lg shadow-lg">
             <iframe
-              src={`https://link.visa.com/1.0/transactions/connect-accounts?client_id=${clientId}&redirect_uri=http://localhost:3000/callback&authorization_code=${authorizationCode}&market=US`}
+              src={`https://link.visa.com/1.0/transactions/connect-accounts?client_id=${clientId}&redirect_uri=http://localhost:3000/onboarding&authorization_code=${authorizationCode}&market=US`}
               className="w-full h-[450px]"
             ></iframe>
           </div>
