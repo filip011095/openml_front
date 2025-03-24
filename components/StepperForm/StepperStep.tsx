@@ -16,7 +16,7 @@ export default function StepperStep({ currentStep, nextStep, prevStep, handleBan
     extraIncome: false,
   });
 
-  const toggleSource = (source: string) => {
+  const toggleSource = (source: keyof typeof selectedSources) => {
     setSelectedSources((prev) => ({ ...prev, [source]: !prev[source] }));
   };
 

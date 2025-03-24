@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import StepperSidebar from "./StepperSidebar";
 import StepperStep from "./StepperStep";
 import StepperDialog from "./StepperDialog";
@@ -30,6 +30,28 @@ export default function StepperForm() {
       setCurrentStep((prev) => prev - 1);
     }
   };
+
+  useEffect(() => {
+    const handleVisaMessage = (event: MessageEvent) => {
+      if (event.data?.source === 'visa-sdk') {
+        const { code, credentialsId } = event.data;
+        console.log('Received from iframe:', code, credentialsId);
+  
+        // ✅ Do something with code & credentialsId here
+        // e.g. send to backend to exchange for access token, etc.
+  
+        // ✅ Automatically close the iframe/modal
+        closeDialog?.();
+        nextStep();
+      }
+    };
+  
+    window.addEventListener('message', handleVisaMessage);
+  
+    return () => {
+      window.removeEventListener('message', handleVisaMessage);
+    };
+  }, [closeDialog]);
 
   return (
     <div className="flex p-8 h-[800px] relative mt-[-100px]">
