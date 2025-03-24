@@ -55,7 +55,7 @@ export const useBankConnection = () => {
     const userMarket = "US";
     const userLocale = "en_US";
     try {
-      const response = await fetch("http://44.192.120.34:1337/api/tink/connect", {
+      const response = await fetch( `${process.env.NEXT_PUBLIC_API_URL}/api/tink/connect`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
