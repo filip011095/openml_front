@@ -5,7 +5,10 @@ interface StepperSidebarProps {
   currentStep: number;
 }
 
-export default function StepperSidebar({ steps, currentStep }: StepperSidebarProps) {
+export default function StepperSidebar({
+  steps,
+  currentStep,
+}: StepperSidebarProps) {
   return (
     <div className="flex flex-col items-start absolute left-[-40%]">
       {steps.map((step, index) => {
@@ -28,7 +31,9 @@ export default function StepperSidebar({ steps, currentStep }: StepperSidebarPro
               {index !== steps.length - 1 && (
                 <div
                   className={`w-[1px] h-10 ${
-                    isCompleted ? "bg-[#2286EA]" : "bg-[#2A2A33] border-[1px] border-dashed"
+                    isCompleted
+                      ? "bg-[#2286EA]"
+                      : "bg-[#2A2A33] border-[1px] border-dashed"
                   }`}
                 ></div>
               )}

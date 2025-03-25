@@ -7,48 +7,7 @@ export const useBankConnection = () => {
   const [authorizationCode, setAuthorizationCode] = useState("");
   const { getToken } = useAuth();
 
-  // Handle messages from Visa iframe
-  useEffect(() => {
-    const receiveMessage = (event: MessageEvent) => {
-      // Validate the origin of the message
-      if (event.origin !== "https://link.us.tink.com") {
-        return;
-      }
 
-      // Parse the message data
-      const { type, data, error } = JSON.parse(event.data);
-
-      // Handle different message types
-      if (type === "code") {
-        // This is the authorization code that should be exchanged for an access token
-        const code = data;
-        console.log(`Visa Link returned with authorization code: ${code}`);
-        setAuthorizationCode(code); // Update the authorization code in state
-      } else if (type === "error") {
-        // Handle error response from Visa Link
-        console.error(`Visa Link returned with error status: ${error.status} and error message: ${error.message}.`);
-      } else if (type === "credentials") {
-        // Handle credentials error response from Visa Link
-        const credentialsId = data;
-        console.error(`Authentication failed with credentials identifier: ${credentialsId} with error status: ${error.status} and error message: ${error.message}.`);
-      } else if (type === "status") {
-        // Observe Visa Link loading state (optional)
-        const { loading } = data;
-        console.log(`Visa Link has ${loading ? "shown" : "hidden"} the loading overlay.`);
-      } else {
-        // Ignore other message types
-        console.log("Received unknown message type:", type);
-      }
-    };
-
-    // Add the event listener
-    window.addEventListener("message", receiveMessage, false);
-
-    // Clean up the event listener on component unmount
-    return () => {
-      window.removeEventListener("message", receiveMessage);
-    };
-  }, []);
 
   const handleBankConnect = async () => {
     const token = await getToken();

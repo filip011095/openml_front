@@ -18,8 +18,6 @@ export default function SignUpComplete() {
         // Get JWT token using the new template name
         const token = await getToken(); // Use the Clerk JWT template name
 
-        console.log("🔹 Clerk Token:", token); // Debug: Check if the token is retrieved
-
         const response = await fetch( `${process.env.NEXT_PUBLIC_API_URL}/api/auth/signin`,
           {
           method: "POST",

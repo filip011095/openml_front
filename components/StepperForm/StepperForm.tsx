@@ -6,16 +6,20 @@ import StepperStep from "./StepperStep";
 import StepperDialog from "./StepperDialog";
 import { useBankConnection } from "../../hooks/useBankConnection";
 import { steps } from "../../utils/constants";
+import { useUser, useAuth } from "@clerk/nextjs";
 
 export default function StepperForm() {
   const [currentStep, setCurrentStep] = useState(1);
+  const [connectedBanks, setConnectedBanks] = useState<
+    { name: string; icon: string | null }[]
+  >([]);
+
+  const { getToken } = useAuth();
   const {
     isDialogOpen,
     closeDialog,
     handleBankConnect,
     authorizationCode,
-    isManualDialogOpen,
-    openManualDialog,
     closeManualDialog,
   } = useBankConnection();
 
@@ -32,47 +36,66 @@ export default function StepperForm() {
   };
 
   useEffect(() => {
-    const handleVisaMessage = (event: MessageEvent) => {
-      if (event.data?.source === 'visa-sdk') {
+    const handleVisaMessage = async (event: MessageEvent) => {
+      if (event.data?.source === "visa-sdk") {
         const { code, credentialsId } = event.data;
-        console.log('Received from iframe:', code, credentialsId);
-  
-        // ✅ Do something with code & credentialsId here
-        // e.g. send to backend to exchange for access token, etc.
-  
-        // ✅ Automatically close the iframe/modal
+        console.log("Received from iframe:", code, credentialsId);
+
+        try {
+          const token = await getToken();
+          const response = await fetch(
+            `${process.env.NEXT_PUBLIC_API_URL}/api/tink/callback`,
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+              },
+              body: JSON.stringify({
+                code: code,
+                credentials_id: credentialsId,
+              }),
+            }
+          );
+
+          if (!response.ok) {
+            throw new Error("Failed to send data to backend");
+          }
+
+          const result = await response.json();
+          console.log("Backend response:", result);
+          if (result?.bankData) {
+            setConnectedBanks((prev) => [...prev, result.bankData]);
+          }
+        } catch (error) {
+          console.error("Error sending to backend:", error);
+        }
         closeDialog?.();
         nextStep();
       }
     };
-  
-    window.addEventListener('message', handleVisaMessage);
-  
+
+    window.addEventListener("message", handleVisaMessage);
+
     return () => {
-      window.removeEventListener('message', handleVisaMessage);
+      window.removeEventListener("message", handleVisaMessage);
     };
   }, [closeDialog]);
 
   return (
-    <div className="flex p-8 h-[800px] relative mt-[-100px]">
+    <div className="flex p-8 h-[90%] relative ">
       <StepperSidebar steps={steps} currentStep={currentStep} />
       <StepperStep
         currentStep={currentStep}
         nextStep={nextStep}
         prevStep={prevStep}
         handleBankConnect={handleBankConnect}
-        openManualDialog={openManualDialog}
+        connectedBanks={connectedBanks}
       />
-    {isDialogOpen && (
+      {isDialogOpen && (
         <StepperDialog
           authorizationCode={authorizationCode}
           closeDialog={closeDialog}
-        />
-      )}
-      {isManualDialogOpen && (
-        <StepperDialog
-          isManualDialogOpen={isManualDialogOpen}
-          closeManualDialog={closeManualDialog}
         />
       )}
     </div>

@@ -1,24 +1,25 @@
-'use client';
+"use client";
 
-import StepperForm from '../../components/StepperForm/StepperForm';
-import { useSearchParams } from 'next/navigation';
-import { useEffect, Suspense } from 'react';
+import StepperForm from "../../components/StepperForm/StepperForm";
+import { useSearchParams } from "next/navigation";
+import { useEffect, Suspense } from "react";
 
 function OnboardingInner() {
   const searchParams = useSearchParams();
 
   useEffect(() => {
-    const code = searchParams.get('code');
-    const credentialsId = searchParams.get('credentialsId') || searchParams.get('credentials_id');
+    const code = searchParams.get("code");
+    const credentialsId =
+      searchParams.get("credentialsId") || searchParams.get("credentials_id");
 
     if (code && credentialsId) {
       window.parent.postMessage(
         {
-          source: 'visa-sdk',
+          source: "visa-sdk",
           code,
           credentialsId,
         },
-        '*'
+        "*"
       );
     }
   }, [searchParams]);
