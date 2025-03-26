@@ -47,13 +47,13 @@ export default function RootLayout({
       <html lang="en">
         <body
           className={`${geistSans.variable} ${geistMono.variable} antialiased bg-white text-black h-screen`}
-          // style={{ overflow: "hidden" }}
         >
           <NavBar />
-
-          <main className="flex justify-center items-center h-[90%] min-h-[840px]">
-            {children}
-          </main>
+          <div className="flex h-[92%] ">
+            <main className="flex justify-center items-center w-[100%]  min-h-[840px] ">
+              {children}
+            </main>
+          </div>
         </body>
       </html>
     </ClerkProvider>

@@ -10,8 +10,6 @@ interface StepperDialogProps {
 export default function StepperDialog({
   authorizationCode,
   closeDialog,
-  isManualDialogOpen,
-  closeManualDialog,
 }: StepperDialogProps) {
   const clientId = process.env.NEXT_PUBLIC_TINK_CLIENT_ID;
   const dialogRef = useRef<HTMLDivElement>(null);
