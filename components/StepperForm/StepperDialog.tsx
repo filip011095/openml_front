@@ -42,11 +42,11 @@ export default function StepperDialog({
         <div className="fixed inset-0 bg-[#2a2a337a] bg-opacity-50 flex items-center justify-center">
           <div
             ref={dialogRef}
-            className="modal-content bg-white p-0 rounded-lg shadow-lg"
+            className="modal-content bg-white p-0 rounded-lg shadow-lg w-[550px]"
           >
             <iframe
-              src={`https://link.visa.com/1.0/transactions/connect-accounts?client_id=${clientId}&redirect_uri=${process.env.NEXT_PUBLIC_VERCEL_DOMAIN}&authorization_code=${authorizationCode}&market=US`}
-              className="w-full h-[450px]"
+              src={`https://link.visa.com/1.0/transactions/connect-accounts?client_id=${clientId}&redirect_uri=${process.env.NEXT_PUBLIC_REDIRECT_URI}&authorization_code=${authorizationCode}&market=US`}
+              className="w-full h-[600px]"
             ></iframe>
           </div>
         </div>

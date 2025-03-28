@@ -83,7 +83,7 @@ export default function StepperForm() {
   }, [closeDialog]);
 
   return (
-    <div className="flex p-8 h-[90%] relative ">
+    <div className="flex p-8 h-[95%] relative ">
       <StepperSidebar steps={steps} currentStep={currentStep} />
       <StepperStep
         currentStep={currentStep}

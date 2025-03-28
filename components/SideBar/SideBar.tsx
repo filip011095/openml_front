@@ -1,131 +1,89 @@
 "use client";
 
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useState } from "react";
+import { navItems } from "@/utils/constants";
+import classNames from "classnames";
 
 const Sidebar = () => {
+  const pathname = usePathname();
   const [isDashboardOpen, setIsDashboardOpen] = useState(true);
+  const isDashboardActive =
+    pathname === "/" || pathname.startsWith("/dashboard");
 
   return (
-    <aside className="w-64 h-full border-r bg-white px-4 py-6">
-      <nav className="flex flex-col space-y-4">
-        {/* Dashboard section */}
+    <aside className="w-[300px] h-full border-r bg-white px-6 py-6">
+      <nav className="flex flex-col space-y-2.5">
+        {/* Dashboard Section */}
         <div>
           <button
             onClick={() => setIsDashboardOpen(!isDashboardOpen)}
-            className="flex items-center w-full text-[#1976E1] text-[16px] font-semibold hover:text-blue-800"
+            className={classNames(
+              "flex items-center w-full text-[16px] font-semibold p-2.5 rounded-md",
+              {
+                "bg-[#EFF6FD] text-[#1976E1]": isDashboardActive,
+                "text-[#1976E1] hover:text-blue-800": !isDashboardActive,
+              }
+            )}
           >
-            <img className="mr-2" src="./dashboard-ico.png" alt="" />
+            <img className="mr-2" src="./dashboard/side-1.png" alt="" />
             Dashboard
           </button>
           {isDashboardOpen && (
-            <div className="ml-6 mt-2 space-y-1 text-sm">
-              <a href="#" className="text-blue-600 hover:underline">
-                My Dashboard
-              </a>
-              <a
-                href="#"
-                className="flex items-center text-blue-600 hover:underline"
+            <div className=" ml-9 mt-5 space-y-1">
+              <Link
+                href="/dashboard"
+                className={classNames(
+                  "flex items-center text-[16px] py-1 relative before:absolute before:left-[-27px] before:top-[-21px] before:bottom-0 before:w-[27px] before:h-[38px] before:bg-white before:border-l-[1.5px] before:border-b-[1.5px] before:rounded-bl-[8px] before:border-[#AEAFB3] before:z-2",
+                  {
+                    "text-[#1976E1] font-semibold": pathname === "/dashboard",
+                    "text-[#2A2A33]": pathname !== "/dashboard",
+                  }
+                )}
               >
-                <svg
-                  className="w-4 h-4 mr-1"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M18 9v3h3m-6 3H9m-3 0H3m6 0v-3m0-3V6m0 6h6"
-                  />
-                </svg>
+                <img src="./dashboard/e.png" className="mr-2" alt="" />
+                My Dashboard
+              </Link>
+              <Link
+                href="/dashboard/invite"
+                className={classNames(
+                  "flex mb-3 items-center text-[16px] mt-3  relative before:absolute before:left-[-27px] before:top-[-37px] before:bottom-0 before:w-[27px] before:h-[50px] before:bg-white before:border-l-[1.5px] before:border-b-[1.5px] before:rounded-bl-[8px] before:border-[#AEAFB3]",
+                  {
+                    "text-[#1976E1] font-semibold":
+                      pathname === "/dashboard/invite",
+                    "text-[#2A2A33]": pathname !== "/dashboard/invite",
+                  }
+                )}
+              >
+                <img src="./dashboard/e.png" className="mr-2" alt="" />
+                <img src="./dashboard/user-plus.png" className="mr-2" alt="" />
                 Invite a New Member
-              </a>
+              </Link>
             </div>
           )}
         </div>
+        {navItems.map(({ id, label, icon, extraIcon, href }) => {
+          const isActive = pathname.startsWith(href);
 
-        {/* Navigation Items */}
-        <a
-          href="#"
-          className="flex items-center text-gray-700 hover:text-blue-600"
-        >
-          <svg
-            className="w-5 h-5 mr-2"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M3 10h18M3 6h18M3 14h18M3 18h18"
-            />
-          </svg>
-          Connected Accounts
-        </a>
-
-        <a
-          href="#"
-          className="flex items-center text-gray-700 hover:text-blue-600"
-        >
-          <svg
-            className="w-5 h-5 mr-2"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"
-            />
-          </svg>
-          Your Financial Summary
-        </a>
-
-        <a
-          href="#"
-          className="flex items-center text-gray-700 hover:text-blue-600"
-        >
-          <svg
-            className="w-5 h-5 mr-2"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M5 6h14M5 12h14M5 18h14"
-            />
-          </svg>
-          Your Reports
-        </a>
-
-        <a
-          href="#"
-          className="flex items-center text-gray-700 hover:text-blue-600"
-        >
-          <svg
-            className="w-5 h-5 mr-2"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l2.062 6.334a1 1 0 00.95.69h6.667c.969 0 1.371 1.24.588 1.81l-5.4 3.915a1 1 0 00-.364 1.118l2.062 6.334c.3.921-.755 1.688-1.538 1.118l-5.4-3.915a1 1 0 00-1.176 0l-5.4 3.915c-.783.57-1.838-.197-1.538-1.118l2.062-6.334a1 1 0 00-.364-1.118l-5.4-3.915c-.783-.57-.38-1.81.588-1.81h6.667a1 1 0 00.95-.69l2.062-6.334z"
-            />
-          </svg>
-          Home Affordability AI
-        </a>
+          return (
+            <Link
+              key={id}
+              href={href}
+              className={classNames(
+                "flex items-center mt-[-10px] p-2.5 w-[240px] rounded-md",
+                {
+                  "bg-[#EFF6FD] text-[#1976E1]": isActive,
+                  "text-[#2A2A33] hover:text-[#1976E1]": !isActive,
+                }
+              )}
+            >
+              <img className="mr-2" src={icon} alt="" />
+              {label}
+              {extraIcon && <img className="ml-2" src={extraIcon} alt="" />}
+            </Link>
+          );
+        })}
       </nav>
     </aside>
   );

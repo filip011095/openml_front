@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useRouter } from "next/navigation";
 
 interface StepperStepProps {
   currentStep: number;
@@ -26,9 +27,9 @@ export default function StepperStep({
   const toggleSource = (source: SourceKey) => {
     setSelectedSources((prev) => ({ ...prev, [source]: !prev[source] }));
   };
-
+  const router = useRouter();
   return (
-    <div className="w-[620px] p-8 h-[110%]  bg-white shadow-md rounded-lg mt-[-40px]">
+    <div className="w-[620px] p-8 h-[108%]  bg-white shadow-md rounded-lg mt-[-20px]">
       {currentStep === 1 && (
         <div className="h-full flex flex-col justify-between">
           <div>
@@ -268,10 +269,14 @@ export default function StepperStep({
                       className="w-15 h-15 mb-2"
                     />
                   ) : (
-                    <div className="w-15 h-15 mb-2 bg-gray-300 rounded-full" />
+                    <img
+                      className="w-15"
+                      src="https://cdn.tink.se/provider-images/demobank.png"
+                      alt=""
+                    />
                   )}
-                  <span className="font-medium text-[#2A2A33]">
-                    {bank.name || "Unknown Bank"}
+                  <span className="font-medium text-[#2A2A33] mt-2">
+                    {"Demobank"}
                   </span>
                 </div>
               ))}
@@ -292,7 +297,10 @@ export default function StepperStep({
             >
               Back
             </button>
-            <button className="px-10 py-4 bg-[#2286EA]  text-white rounded-xl">
+            <button
+              onClick={() => router.push("/dashboard")}
+              className="px-10 py-4 bg-[#2286EA] text-white rounded-xl"
+            >
               Complete and view dashboard
             </button>
           </div>
